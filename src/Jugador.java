@@ -1,4 +1,6 @@
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 import javax.swing.JPanel;
 
@@ -58,16 +60,38 @@ public class Jugador {
         return mensaje;
     }
     
-    public int calcularPuntaje() {
+  
+public int calcularPuntaje() {
         int puntaje = 0;
+        Set<NombreCarta> cartasContadas = new HashSet<>(); // Para rastrear cartas únicas
+
         for (Carta c : cartas) {
-            int valor = c.getNombre().ordinal() + 1; 
-            if (valor > 10) {
-                valor = 10;
+            NombreCarta nombreCarta = c.getNombre();
+
+            // Si la carta ya fue contada, la ignoramos
+            if (cartasContadas.contains(nombreCarta)) {
+                continue;
             }
-            puntaje += valor;
+
+            // Marcar la carta como contada
+            cartasContadas.add(nombreCarta);
+
+            // Si la carta es AS, JACK, QUEEN o KING, vale 10
+            if (nombreCarta == NombreCarta.AS || 
+                nombreCarta == NombreCarta.JACK || 
+                nombreCarta == NombreCarta.QUEEN || 
+                nombreCarta == NombreCarta.KING) {
+                puntaje += 10;
+            } else {
+                puntaje += nombreCarta.ordinal() + 1; // Cartas numéricas valen su número
+            }
         }
+
         return puntaje;
     }
-    
 }
+//Este es
+
+    
+
+
